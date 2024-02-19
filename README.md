@@ -1,7 +1,7 @@
 # Comandos iniciais:
 ``` bash
-    mkdir api-desafio21dias-materiais
-    cd api-desafio21dias-materiais
+    mkdir api-desafio21dias-pais
+    cd api-desafio21dias-pais
     dotnet run webapi
 ```
 
@@ -16,30 +16,14 @@
     git init
     git add .
     git commit -m "Iniciando projeto"
-    git remote add origin git@github.com:alejandro-espejo/api-desafio21dias-materiais.git
+    git remote add origin git@github.com:alejandro-espejo/api-desafio21dias-pais.git
     git branch -M main
     git push -u origin main
 ```
 
 # Componentes instalados:
 ``` bash
-    dotnet add package Microsoft.EntityFrameworkCore --version 8.0.1
-    dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.1
-    dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.1
-    dotnet add package EntityFrameworkPaginateCore --version 2.1.0
-```
-
-# Comandos para migração para criar:
-``` bash
-    dotnet tool install --global dotnet-ef
-    dotnet ef migrations add MateriaisAdd
-    dotnet ef database update
-```
-
-# Comandos para atualizar o database:
-#### Caso você esteja usando esta aplicação com o código clonado, rodas o comando abaixo
-``` bash
-    dotnet ef database update
+    dotnet add package mongocsharpdriver --version 2.23.1
 ```
 
 # Um pouco sobre API REST
