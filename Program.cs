@@ -33,26 +33,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-public partial class Program
-{
-    private IConfiguration Configuration { get; }
-
-    public static dynamic? AlunoApi;
-    public static dynamic? MongoCnn;
-    //public static dynamic connectionStrings;
-
-    public Program(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-        Program.AlunoApi = Configuration.GetConnectionString("AlunosApi");
-        Program.MongoCnn = Configuration.GetConnectionString("MongoCnn");
-        //connectionStrings = Configuration.GetSection("ConnectionStrings");
-        //services.Configure<ConnectionStrings>(connectionStrings);
-        
-    }
-}

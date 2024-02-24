@@ -1,5 +1,6 @@
 using api_desafio21dias.Models;
 using DnsClient.Protocol;
+using Microsoft.VisualBasic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
@@ -9,10 +10,13 @@ namespace api_desafio21dias.Servicos
     public class PaisMongodb
     {
         private IMongoDatabase mongoDatabase;
+        private IConfiguration _configuration;
 
-        public PaisMongodb()
+        public PaisMongodb(IConfiguration configuration)
         {
-            var cnn = Program.MongoCnn!.Split('#');
+            _configuration = configuration;
+            //var cnn = Program.MongoCnn!.Split('#');
+            var cnn = _configuration["ConnectionStrings:MongoCnn"]!.Split('#');
             this.mongoDatabase = new MongoClient(cnn[0]).GetDatabase(cnn[1]);
         }
 
@@ -28,8 +32,11 @@ namespace api_desafio21dias.Servicos
 
         public async void Atualizar(Pai pai) 
         {
-            var filter = Builders<Pai>.Filter.Eq(c => c.Id == pai.Id, true);
-            await mongoCollection().UpdateOneAsync(filter, new ObjectUpdateDefinition<Pai>(pai));
+            
+            //var filter = Builders<Pai>.Filter.Eq(c => c.Id.Equals(pai.Id), true);
+            //await mongoCollection().UpdateOneAsync(filter, new ObjectUpdateDefinition<Pai>(pai));
+            var filter = Builders<Pai>.Filter.Eq(c => c.Id, pai.Id);
+            await mongoCollection().UpdateOneAsync(filter, Builders<Pai>.Update.Set(p => p.Nome, pai.Nome).Set(p => p.AlunoId, pai.AlunoId));
         }
 
         public async void RemovePorId(ObjectId id) 

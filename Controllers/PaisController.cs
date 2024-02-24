@@ -9,15 +9,17 @@ namespace api_desafio21dias.Controllers
     [ApiController]
     public class PaisController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
 
-        public PaisController()
+        public PaisController(IConfiguration configuration)
         {
-            this.paiMongoRepo = new PaisMongodb();
+            this._configuration = configuration;
+            this.paiMongoRepo = new PaisMongodb(_configuration);
         }
 
         private PaisMongodb paiMongoRepo;
         
-        // GET: Pais - Aula 14 - 1:10h
+        // GET: Pais - Aula 14 - 1:24
         [HttpGet]
         [Route("/pais")]
         public async Task<IActionResult> Index()
@@ -45,9 +47,9 @@ namespace api_desafio21dias.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!await AlunoServico.ValidarUsuario(pai.AlunoId))
+                if (!await AlunoServico.ValidarAluno(pai.AlunoId))
                 {
-                    return StatusCode(400, new { Mensagem = "O usuário passado não é válido ou não existe."});
+                    return StatusCode(400, new { Mensagem = "O aluno passado não é válido ou não existe."});
                 }
                 paiMongoRepo.Inserir(pai);
                 return StatusCode(201, pai);
@@ -62,9 +64,9 @@ namespace api_desafio21dias.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (! await AlunoServico.ValidarUsuario(pai.AlunoId))
+                if (! await AlunoServico.ValidarAluno(pai.AlunoId))
                 {
-                    return StatusCode(400, new { Mensagem = "O Aluno passado não é válido ou não está cadastrado." });
+                    return StatusCode(400, new { Mensagem = "O aluno passado não é válido ou não está cadastrado." });
                 }
                 try
                 {
@@ -88,7 +90,7 @@ namespace api_desafio21dias.Controllers
         }
         
         // DELETE: pai/5
-        [HttpDelete] // , ActionName("Delete")
+        [HttpDelete]
         [Route("/pais/{id}")]
         public IActionResult DeleteConfirmed(ObjectId id)
         {
